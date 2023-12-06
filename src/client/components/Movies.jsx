@@ -18,11 +18,11 @@ function Movies() {
 
   async function fetchMovies() {
     try {
-      //  fix this const data = movies make array obj of movies
-     
-      const { data } = await Axios.get(`${API}/movies`);
+  
+      // const data = {movies:[{...API}]}
+      const {data} = await Axios.get(`${API}/movies`);
 
-      
+      console.log(data);
 
 
       setMovies(data.movies);
@@ -40,43 +40,47 @@ function Movies() {
   };
 
   const filterMovie = () => {
+  
     return movies.filter(
       (movie) =>
         movie.title.toLowerCase().includes(searchMovie.toLowerCase()) ||
         movie.director.toLowerCase().includes(searchMovie.toLowerCase())
+        
     );
   };
-  
+  // console.log('filter', movies.filter)
+  // console.log(filterMovie)
 
-  return (
-    <>
-      <div className='movies-container'>
-        <h2>Popular Movies</h2>
-        <input 
-         className="search-bar"
-          type="text"
-          placeholder="Search by movie title or director..."
-          value={searchMovie}
-          onChange={handleInputChange}
-        />
-        {
-          movies.length ? (
-            filterMovie().map((movie) => {
-              return <div key={movie.id}>
-                <Link className="details-link" to={`/details/${movie.id}`}>
-  <img src={movie.img} alt={movie.title} />
-</Link>
+  return 
+    // <>
+    //   <div className='movies-container'>
+    //     <h2>Popular Movies</h2>
+    //     <input 
+    //      className="search-bar"
+    //       type="text"
+    //       placeholder="Search by movie title or director..."
+    //       value={searchMovie}
+    //       onChange={handleInputChange}
+    //     />
+    //     {
+        
+//           movies.length ? (
+//             filterMovie().map((movie) => {
+//               return <div key={movie.id}>
+//                 <Link className="details-link" to={`/details/${movie.id}`}>
+//   <img src={movie.img} alt={movie.title} />
+// </Link>
 
           
-              </div>
-            })
-            )  :
-            <h2>Loading...</h2>
-        }
-      </div>
+//               </div>
+//             })
+//             )  :
+//             <h2>Loading...</h2>
+//         }
+//       </div>
     
-    </>
-  );
+//     </>
+//   );
 
 }
 
