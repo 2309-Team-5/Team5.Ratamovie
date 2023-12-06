@@ -102,7 +102,8 @@ const createMoviesTable = async () => {
           TITLE VARCHAR(255) DEFAULT 'title',
           DESCRIPTION VARCHAR(255) DEFAULT 'description',       
           DIRECTOR VARCHAR(255) DEFAULT 'director',
-          YEAR VARCHAR(255) DEFAULT 'year'
+          YEAR VARCHAR(255) DEFAULT 'year',
+          image TEXT...);
          
       )`)
   }
@@ -116,7 +117,8 @@ const createReviewsTable = async () => {
       CREATE TABLE reviews(
           id SERIAL PRIMARY KEY,
           name VARCHAR(255) DEFAULT 'name',
-          email VARCHAR(255) UNIQUE NOT NULL
+          email VARCHAR(255) UNIQUE NOT NULL,
+          "movieId" INTEGER REFERENCES movies(id)
           
       )`)
   }
@@ -131,6 +133,7 @@ const createCommentsTable = async () => {
           id SERIAL PRIMARY KEY,
           date VARCHAR(255) DEFAULT 'date',
           rating VARCHAR(255) UNIQUE NOT NULL
+          "reviewId" INTEGER REFERENCES movies(id)
          
           
       )`)
