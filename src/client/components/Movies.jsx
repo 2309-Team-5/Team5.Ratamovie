@@ -16,6 +16,7 @@ function Movies() {
 
   async function fetchMovies() {
     try {
+      //  fix this const data = movies make array obj of movies
       const { data } = await Axios.get(`${API}/movies`)
       setMovies(data.movies);
 
@@ -31,7 +32,7 @@ function Movies() {
   const filterMovie = () => {
     return movies.filter(
       (movie) =>
-      movie.title.toLowerCase().includes(searchBook.toLowerCase()) ||
+      movie.title.toLowerCase().includes(searchMovie.toLowerCase()) ||
       movies.director.toLowerCase().includes(searchMovie.toLocaleLowerCase())
     );
   };
