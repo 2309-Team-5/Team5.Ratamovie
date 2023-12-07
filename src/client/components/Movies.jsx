@@ -1,89 +1,86 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import Axios from 'axios'
+// import { Movies } from 'react-router-dom'
+// import Axios from 'axios'
+
 
 let API = 'http://localhost:3000/api'
 
-
 function Movies() {
  
-  const [searchMovie, setSearchMovie] = useState("");
+  const [filtered, setFiltered] = useState([]);
 
   const [movies, setMovies] = useState([]);
 
-  useEffect(() => {
-    fetchMovies();
-
-  }, [])
+  
 
   async function fetchMovies() {
     try {
   
       // const data = {movies:[{...API}]}
-      const {data} = await Axios.get(`${API}/movies`);
+      // const {data} = await Axios.get(`${API}/movies`);
+      const response = await fetch(`${API}/movies`);
+      const result = await response.json();
+      setMovies(result.movies);
+      setFiltered(result.movies);
+      // const { data: response } = await Axios.get(`${API}movies`); 
+      // console.log(data);
 
-      console.log(data);
 
-
-      setMovies(data.movies);
+      // setMovies(data.movies);
 
     } catch (error) {
-      console.error('Error fetching movies:', error.message);
+      console.error('help with this error:', error);
       
     }
     
     
   }
+  useEffect(() => {
+    fetchMovies();
 
-  const handleInputChange = (e) => {
-    setSearchMovie(e.target.value);
-  };
+  }, [])
 
-  const filterMovie = () => {
   
-    return movies.filter(
-      (movie) =>
-        movie.title.toLowerCase().includes(searchMovie.toLowerCase()) ||
-        movie.director.toLowerCase().includes(searchMovie.toLowerCase())
-        
-    );
-  };
-  // console.log('filter', movies.filter)
-  // console.log(filterMovie)
-
-  return 
-    // <>
-    //   <div className='movies-container'>
-    //     <h2>Popular Movies</h2>
-    //     <input 
-    //      className="search-bar"
-    //       type="text"
-    //       placeholder="Search by movie title or director..."
-    //       value={searchMovie}
-    //       onChange={handleInputChange}
-    //     />
-    //     {
-        
-//           movies.length ? (
-//             filterMovie().map((movie) => {
-//               return <div key={movie.id}>
-//                 <Link className="details-link" to={`/details/${movie.id}`}>
-//   <img src={movie.img} alt={movie.title} />
-// </Link>
-
-          
-//               </div>
-//             })
-//             )  :
-//             <h2>Loading...</h2>
-//         }
-//       </div>
+function filterMovies(searchString) {
+  const result = movies.filter((movie) => {
+    if (
+      movie.title.toLowerCase().includes(searchString.toLowerCase()) ||
+      movie.director.toLowerCase().includes(searchString.toLowerCase())
+     
+      );
+      
+    });
     
-//     </>
-//   );
-
+  setFiltered(result);
 }
 
 
+
+
+return (
+  <div>
+   
+    <input
+      type="text"
+      placeholder="Search by movie title or director..."
+      onChange={(e) => filterMovies(e.target.value)}
+    />
+
+   
+    {filtered.length ? (
+      filtered.map((movie) => (
+        <Movies key={movie.id} to={`/details/${movie.id}`}>
+          <div>
+            <h3>{movie.title}</h3>
+            <h4>{movie.director}</h4>
+          </div>
+        </Movies>
+      ))
+    ) : (
+      <h2>Loading...</h2>
+    )}
+  </div>
+);
+}
 
 export default Movies
